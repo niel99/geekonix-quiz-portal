@@ -6,7 +6,7 @@ const User=require('../models/user');
 const Quiz = require('../models/quiz');
 const Auth = require('../middlewares/auth');
 
-router.post('/create',Auth.authenticateUser,(req,res,next)=>{
+router.post('/create',Auth.authenticateAdmin,(req,res,next)=>{
     
     req.checkBody('name', 'Quiz name is required').notEmpty();
     req.checkBody('startTime', 'Start Time is required').notEmpty();
@@ -79,7 +79,7 @@ router.post('/create',Auth.authenticateUser,(req,res,next)=>{
     })
 });
 
-router.post('/edit',Auth.authenticateUser,(req,res,next)=>{
+router.post('/edit',Auth.authenticateMod,(req,res,next)=>{
     
     req.checkBody('name', 'Quiz name is required').notEmpty();
     req.checkBody('startTime', 'Start Time is required').notEmpty();
@@ -333,7 +333,7 @@ router.get('/:id', Auth.authenticateUser, (req, res, next) => {
     });
 });
 
-router.delete('/:id', Auth.authenticateUser, (req, res, next) => {
+router.delete('/:id', Auth.authenticateAdmin, (req, res, next) => {
     Quiz.remove({_id: req.params.id}).exec()
     .then(result => {
         res.status(200).json({

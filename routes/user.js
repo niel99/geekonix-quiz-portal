@@ -13,7 +13,8 @@ router.post('/login', (req, res, next) => {
     const errors = req.validationErrors();
     //console.log("req body "+req.body);
     if (!errors) {
-        User.findOne({ name: req.body.name }).exec()
+        //using email in place of name...weird change coz didn't wanna break frontend   
+        User.findOne({ email: req.body.name }).exec()
             .then(user => {
                 //console.log("User "+user);
                 if (user) {
@@ -90,82 +91,64 @@ router.post('/register', (req, res, next) => {
     req.checkBody('password1', 'Password is required').notEmpty();
     req.checkBody('password2', 'Passwords do not match').equals(req.body.password1);
     req.checkBody('college', 'University/College is required').notEmpty();
-    req.checkBody('lang', 'language is required').notEmpty();
+    // req.checkBody('lang', 'language is required').notEmpty();
 
     const errors = req.validationErrors();
 
     if (!errors) {
-        User.findOne({ name: req.body.name }).exec()
+        User.findOne({ email: req.body.email }).exec()
             .then(user => {
                 if (user) {
                     return res.status(409).json({
                         status: 0,
-                        error: "Team Name already taken"
+                        error: "Email exists"
                     });
                 }
                 else {
-                    User.findOne({ email: req.body.email }).exec()
+                    User.findOne({ contact: req.body.contact }).exec()
                         .then(user => {
                             if (user) {
                                 return res.status(409).json({
                                     status: 0,
-                                    error: "Email exists"
+                                    error: "Number exists"
                                 });
                             }
                             else {
-                                User.findOne({ contact: req.body.contact }).exec()
-                                    .then(user => {
-                                        if (user) {
-                                            return res.status(409).json({
-                                                status: 0,
-                                                error: "Number exists"
-                                            });
-                                        }
-                                        else {
-                                            bcrypt.hash(req.body.password1, 10, function (err, hash) {
-                                                if (err) {
-                                                    //console.log(err);
-                                                    res.status(500).json({
-                                                        status: 0,
-                                                        error: "Internal Server Error"
-                                                    });
-                                                }
-                                                else {
-                                                    const user = new User({
-                                                        name: req.body.name,
-                                                        email: req.body.email,
-                                                        contact: req.body.contact,
-                                                        password: hash,
-                                                        college: req.body.college,
-                                                        access: 3,
-                                                        lang: req.body.lang,
-                                                        temp: 'webd'
-                                                    });
-                                                    user.save()
-                                                        .then(result => {
-                                                            res.status(201).json({
-                                                                status: 1,
-                                                                msg: "You have been successfully registered :)"
-                                                            });
-                                                        })
-                                                        .catch(err => {
-                                                            //console.log(err);
-                                                            res.status(500).json({
-                                                                status: 0,
-                                                                error: "Internal Server Error"
-                                                            });
-                                                        });
-                                                }
-                                            });
-                                        }
-                                    })
-                                    .catch(err => {
+                                bcrypt.hash(req.body.password1, 10, function (err, hash) {
+                                    if (err) {
                                         //console.log(err);
                                         res.status(500).json({
                                             status: 0,
                                             error: "Internal Server Error"
                                         });
-                                    });
+                                    }
+                                    else {
+                                        const user = new User({
+                                            name: req.body.name,
+                                            email: req.body.email,
+                                            contact: req.body.contact,
+                                            password: hash,
+                                            college: req.body.college,
+                                            access: 3,
+                                            lang: req.body.lang,
+                                            temp: 'webd'
+                                        });
+                                        user.save()
+                                            .then(result => {
+                                                res.status(201).json({
+                                                    status: 1,
+                                                    msg: "You have been successfully registered :)"
+                                                });
+                                            })
+                                            .catch(err => {
+                                                //console.log(err);
+                                                res.status(500).json({
+                                                    status: 0,
+                                                    error: "Internal Server Error"
+                                                });
+                                            });
+                                    }
+                                });
                             }
                         })
                         .catch(err => {

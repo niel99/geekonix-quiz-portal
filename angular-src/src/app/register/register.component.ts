@@ -30,7 +30,7 @@ export class RegisterComponent implements OnInit {
       }, this.matchPasswords),
       'contact': new FormControl(null, [Validators.required, Validators.pattern(/^(\+?91|0)?[6789]\d{9}$/)]),
       'college': new FormControl(null, Validators.required),
-      'lang': new FormControl(null,Validators.required)
+      // 'lang': new FormControl(null,Validators.required)
     });
   }
 
@@ -48,7 +48,7 @@ export class RegisterComponent implements OnInit {
       password1: this.registerForm.value.password.password1,
       password2: this.registerForm.value.password.password2,
       college: this.registerForm.value.college,
-      lang: this.registerForm.value.lang
+      // lang: this.registerForm.value.lang
     }
     this.authService.registerUser(user).subscribe(
       data => {

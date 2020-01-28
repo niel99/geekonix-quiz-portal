@@ -5,7 +5,7 @@
       <form [formGroup]="loginForm" (ngSubmit)="login()">
         <div class="card-body">
           <div class="form-group">
-            <input type="text" class="form-control rounded-0 form-control-lg" placeholder="Team Name" formControlName="name">
+            <input type="text" class="form-control rounded-0 form-control-lg" placeholder="Email" formControlName="name">
             <div *ngIf="!loginForm.get('name').valid && loginForm.get('name').touched" class="invalid-feedback">
               Please enter a team name greater than 2 characters.
             </div>

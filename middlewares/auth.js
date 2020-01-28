@@ -5,7 +5,7 @@ module.exports = {
         try {
             const token = req.headers.authorization.split(' ')[1];
             const decoded = jwt.verify(token, process.env.SECRET);
-            if(decoded.access === 3){
+            if(decoded.access === 3|| decoded.access === 2 || decoded.access === 121){
                 console.log("user ",req.user);
                 req.user = decoded;
                 next();
@@ -27,7 +27,7 @@ module.exports = {
         try {
             const token = req.headers.authorization.split(' ')[1];
             const decoded = jwt.verify(token, process.env.SECRET);
-            if(decoded.access === 2)
+            if(decoded.access === 2 || decoded.access === 121)
                 next();
             else
                 return res.status(401).json({

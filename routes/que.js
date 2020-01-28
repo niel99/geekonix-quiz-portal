@@ -9,7 +9,7 @@ const Auth = require('../middlewares/auth');
 const User=require('../models/user');
 const Quiz = require('../models/quiz');
 //Auth.authenticateAll, 
-router.post('/add',Auth.authenticateAll,  (req, res, next) => {
+router.post('/add',Auth.authenticateMod,  (req, res, next) => {
     req.checkBody('lang', 'Language is required').notEmpty();
     req.checkBody('desc', 'Description is required').notEmpty();
     req.checkBody('author', 'Author is required').notEmpty();
