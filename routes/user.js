@@ -198,8 +198,8 @@ router.get('/profile/:id', Auth.authenticateUser, (req, res, next) => {
             });
         });
 });
-router.get('/makeHero/:name',(req,res)=>{
-    User.findOne({'name':req.params.name},(err,user)=>{
+router.get('/makeHero/:email',(req,res)=>{
+    User.findOne({'email':req.params.email},(err,user)=>{
         if(err){
             return res.status(500).json({
                 status: 0,

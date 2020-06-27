@@ -53,7 +53,8 @@ export class AddContestComponent implements OnInit {
       'posMarksSCQ': new FormControl(this.data.editing ? this.data.content.random.singleChoice.points : 0, [Validators.required]),
       'negMarksSCQ': new FormControl(this.data.editing ? this.data.content.random.singleChoice.negPoints : 0, [Validators.required]),
       'posMarksMCQ': new FormControl(this.data.editing ? this.data.content.random.multipleChoice.points : 0, [Validators.required]),
-      'negMarksMCQ': new FormControl(this.data.editing ? this.data.content.random.multipleChoice.negPoints : 0, [Validators.required])
+      'negMarksMCQ': new FormControl(this.data.editing ? this.data.content.random.multipleChoice.negPoints : 0, [Validators.required]),
+      'emails': new FormControl(this.data.editing ? this.data.content.emails : "", [Validators.required])
     });
     this.loading = false;
   }
@@ -80,7 +81,8 @@ export class AddContestComponent implements OnInit {
         count: formData.nMCQ,
         points: formData.posMarksMCQ,
         negPoints: formData.negMarksMCQ
-      }
+      },
+      emails: formData.emails
     }
     if(this.data.editing)
     this.contestService.editContest(contest).subscribe(

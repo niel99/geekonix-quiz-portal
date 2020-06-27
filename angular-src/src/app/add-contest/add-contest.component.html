@@ -146,6 +146,13 @@
             </ng-container>
         </div>
       </div>
+      <div class="form-group">
+        <textarea class="form-control rounded-0 form-control-lg" rows="6" placeholder="EMAIL IDs allowed (Comma Separated)" formControlName="emails"></textarea>
+        <div *ngIf="!addContestForm.get('emails').valid && addContestForm.get('emails').touched" class="invalid-feedback">
+          Email ID(s) is/are required.
+      </div>
+      <small>Only people having one of the above email ID can take part in the contest.</small>
+      </div>
     </form>
   </div>
   <div class="card-footer text-right">

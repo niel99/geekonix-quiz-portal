@@ -54,6 +54,8 @@ export class ContestsComponent implements OnInit {
         this.contests = data.contests;
         if (this.contests.length > 0)
           this.fetchRegister(0);
+        else
+          this.loading = false;
       },
       error => {
         this.notificationsService.create("", JSON.parse(error._body).error);
@@ -104,10 +106,13 @@ export class ContestsComponent implements OnInit {
           this.notificationsService.success("Done", "Registered Successfully !!!");
           this.ngOnInit();
         }
-        else
+        else{
+        this.loading = false;
           this.notificationsService.error("Oops", "Registration Failure !!!");
+        }
       }, error => {
-        this.notificationsService.error("", JSON.parse(error._body).error);
+        this.loading = false;
+        this.notificationsService.error("", JSON.parse(error._body).msg);
       }
     );
   }

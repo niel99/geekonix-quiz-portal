@@ -38,6 +38,10 @@ const quizSchema = mongoose.Schema({
     },
     users:[
     ],
+    emails:{
+        type:String,
+        default:""
+    },
     random:{
         isRandom: {
             type:Boolean,

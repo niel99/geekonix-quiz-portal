@@ -56,7 +56,8 @@ router.post('/create',Auth.authenticateAdmin,(req,res,next)=>{
                 'hasScoreBoard': req.body.hasScoreBoard,
                 'details':req.body.details,
                 'rules':req.body.rules,
-                'random':random
+                'random':random,
+                'emails':req.body.emails,
                 });
                 if(req.body.quizId!=null){
                     quiz['_id']= req.body.quizId;
@@ -119,6 +120,7 @@ router.post('/edit',Auth.authenticateMod,(req,res,next)=>{
             foundQuiz.hasScoreBoard = req.body.hasScoreBoard;
             foundQuiz.details = req.body.details;
             foundQuiz.rules = req.body.rules;
+            foundQuiz.emails = req.body.emails,
             foundQuiz.save()
             .then(result => {
                 res.status(201).json({
@@ -207,6 +209,11 @@ router.get('/register/:id',Auth.authenticateAll,(req,res)=>{
                 error: "Internal server error"
             });
         }else{
+            if(quiz.emails.indexOf(req.user.email) == -1)
+                return res.status(500).json({
+                    status: 0,
+                    msg: "You are not allowed to take part in this quiz"
+                });
             if(quiz.users.indexOf(req.user.id) == -1)
                 quiz.users.push(req.user.id);
             quiz.save().then(newQuiz=>{
